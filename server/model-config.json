@@ -31,5 +31,9 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "Recipient": {
+    "dataSource": "ultra-newsletter",
+    "public": true
   }
 }
