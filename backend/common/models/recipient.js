@@ -1,8 +1,12 @@
 var app = require('../../server/server');
 var config = require('../../server/config.json');
 var aws = require('aws-sdk');
-var credentials = new aws.SharedIniFileCredentials({profile: 'default'});
-aws.config.update({region: 'us-west-2'});
+// var credentials = new aws.SharedIniFileCredentials({profile: 'default'});
+aws.config.update({
+  region: 'us-west-2',
+  accessKeyId: "AKIAIVYG2UJZJZWOOKLA",
+  secretAccessKey: "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"
+});
 var ses = new aws.SES({apiVersion: '2010-12-01'});
 var _ = require('lodash');
 var Q = require('q');
@@ -62,8 +66,8 @@ module.exports = function(Recipient) {
 
   Recipient.remoteMethod('send', {
     accepts: [
-      {arg: 'subject', type: 'string', 'http': {source: 'body'} },
-      {arg: 'body', type: 'string', 'http': {source: 'body'} },
+      {arg: 'subject', type: 'string' },
+      {arg: 'body', type: 'string' },
     ],
     returns: {root: true, type: 'Object'},
     http: {path: '/send', verb: 'post'}
