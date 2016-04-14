@@ -28,7 +28,7 @@ module.exports = function(Recipient) {
     });
   });
 
-  Recipient.send = function (subject, body, cb) {
+  Recipient.send = function (subject, content, cb) {
     ses.listVerifiedEmailAddresses().promise()
     .then(function(data) {
       return data.VerifiedEmailAddresses
@@ -47,7 +47,7 @@ module.exports = function(Recipient) {
               },
               Body: {
                 Text: {
-                  Data: body,
+                  Data: content,
                 }
               }
             }
@@ -67,7 +67,7 @@ module.exports = function(Recipient) {
   Recipient.remoteMethod('send', {
     accepts: [
       {arg: 'subject', type: 'string' },
-      {arg: 'body', type: 'string' },
+      {arg: 'content', type: 'string' },
     ],
     returns: {root: true, type: 'Object'},
     http: {path: '/send', verb: 'post'}
