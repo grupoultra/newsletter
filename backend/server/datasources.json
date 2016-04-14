@@ -1,0 +1,10 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "ultra-newsletter": {
+    "name": "ultra-newsletter",
+    "connector": "mongodb"
+  }
+}
