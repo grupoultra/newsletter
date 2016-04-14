@@ -25,7 +25,7 @@ angular
       })
       .when('/enviar', {
         templateUrl: 'views/enviar.html',
-        controller: 'SendCtrl'
+        controller: 'MainCtrl'
       })
       .otherwise({
         redirectTo: '/'
