@@ -8,7 +8,7 @@
  * Controller of the newsletterFrontendApp
  */
 angular.module('newsletterFrontendApp')
-  .controller('AboutCtrl', function ($scope) {
+  .controller('SendCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
