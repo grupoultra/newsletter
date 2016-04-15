@@ -1,16 +1,16 @@
-<div id="registration-panel" class="panel panel-default">
+<div id="registration-panel" class="panel panel-info">
     <div class="panel-heading">Enviar correo a la lista de distribucion</div>
     <div class="panel-body">
         <form role="form" ng-submit="sendEmail()">
             <div class="form-group">
                 <label for="subject">Subject:</label>
-                <textarea class="form-control" id="subject" ng-model="subject"></textarea>
+                <textarea class="form-control" id="subject" ng-model="subject" ng-required></textarea>
             </div>
             <div class="form-group">
                 <label for="content">Content:</label>
-                <textarea class="form-control" id="content" ng-model="content"></textarea>
+                <textarea class="form-control" id="content" ng-model="content" ng-required></textarea>
             </div>
-            <button type="submit" class="btn btn-default">Enviar</button>
+            <button type="submit" class="btn btn-success">Enviar</button>
         </form>
     </div>
 </div>
