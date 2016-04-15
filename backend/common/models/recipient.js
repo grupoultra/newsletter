@@ -12,42 +12,62 @@ var _ = require('lodash');
 var Q = require('q');
 
 module.exports = function(Recipient) {
+  Recipient.beforeRemote('create', function (context, recipient, next) {
+    // TODO: Validar correo electronico
+    context.args.verified = false;
+    next(null, true);
+  });
+
   Recipient.afterRemote('create', function (context, recipient, next) {
     var params = {
       EmailAddress: recipient.address /* required */
     };
 
-    ses.verifyEmailAddress(params, function(err, data) {
-      if (err){
-        console.log(err, err.stack); // an error occurred
-        next(err);
-        return
+    var from = 'alexis.ibarra@ultra.sur.top';
+
+    ses.sendEmail({
+      Source: from,
+      Destination: { ToAddresses: [ recipient.address ] },
+      Message: {
+        Subject: {
+          Data: "Gracias por suscribirse"
+        },
+        Body: {
+          Text: {
+            // TODO: Mover esto al frontend
+            Data: "Hola, debe verificar su correo. Ingrese al siguiente link: <a href=\"http://localhost:3000/verificar?id=" + recipient.id + "\"> Verificar </a> ",
+          }
+        }
       }
-      console.log(data);           // successful response
-      next(null);
-    });
+    }).promise()
+        .then(function (res) {
+          cb(null, {"response": "Correo enviado"})
+        })
+        .catch(function(err){
+          cb(err);
+        });
+
+    // TODO: Enviar respuesta desde el api para confirmar
+    // TODO: Se deberia registrar el correo una sola vez. que hacemos con los duplicados?
   });
 
   Recipient.send = function (subject, content, cb) {
-    ses.listVerifiedEmailAddresses().promise()
-    .then(function(data) {
-      return data.VerifiedEmailAddresses
-    })
-    .then(function(emailsList){
-      var from = 'alexis.ibarra@ultra.sur.top'
+    app.models.Recipient.find({'where': {verified: true}})
+    .then(function(usersList){
+      var from = 'alexis.ibarra@ultra.sur.top';
 
       return Q.all(
-        _.map(emailsList, function(address){
+        _.map(usersList, function(user){
           return ses.sendEmail({
             Source: from,
-            Destination: { ToAddresses: [ address ] },
+            Destination: { ToAddresses: [ user.address ] },
             Message: {
               Subject: {
                 Data: subject
               },
               Body: {
                 Text: {
-                  Data: content,
+                  Data: content
                 }
               }
             }
@@ -63,6 +83,12 @@ module.exports = function(Recipient) {
     });
   };
 
+  Recipient.verify = function (id, cb){
+    app.models.Recipient.update({ id: id }, { "verified": true})
+        .then(function (res) {
+          cb(null, {"Response": "model updated"});
+        })
+  };
 
   Recipient.remoteMethod('send', {
     accepts: [
@@ -71,5 +97,13 @@ module.exports = function(Recipient) {
     ],
     returns: {root: true, type: 'Object'},
     http: {path: '/send', verb: 'post'}
+  });
+
+  Recipient.remoteMethod('verify', {
+    accepts: [
+      {arg: 'id', type: 'string' }
+    ],
+    returns: {root: true, type: 'Object'},
+    http: {path: '/verify', verb: 'get'}
   });
 };
