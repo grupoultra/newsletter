@@ -2,6 +2,7 @@
   "name": "Recipient",
   "base": "PersistedModel",
   "idInjection": true,
+  "strict": true,
   "options": {
     "validateUpsert": true
   },
@@ -12,6 +13,10 @@
     },
     "fullname": {
       "type": "string"
+    },
+    "verified": {
+      "type": "boolean",
+      "default": false
     }
   },
   "validations": [],
