@@ -1,5 +1,4 @@
 # Ultra Newsletter - Backend
-============================
 
 Este modulo forma parte de la aplicació0n Ultra Newsletter y es el encargado de servir de intermediario entre el frontend y Amazon SES. Lleva a cabo las siguientes funciones:
 
@@ -7,7 +6,7 @@ Este modulo forma parte de la aplicació0n Ultra Newsletter y es el encargado de
 - Obtiene todos las direcciones verificadas
 - Envía correos a cada una de las direcciones verificadas
 
-# Requerimientos
+## Requerimientos
 
 Este proyecto asume que las siguientes herramientas están instaladas:
 
@@ -15,7 +14,7 @@ Este proyecto asume que las siguientes herramientas están instaladas:
   * [Loopback Framework](http://loopback.io)
   * [MongoDB](https://www.mongodb.com)
 
-# Instalación
+## Instalación
 
 Para instalar este modulo, primero, debe clonar el código desde el repositorio:
 
@@ -29,7 +28,7 @@ Instalar todas las dependencias:
 
     $ npm install
 
-# Running (In development)
+## Running (In development)
 
 Puede correr el modulo con el siguiente comando:
 
