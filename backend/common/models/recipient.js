@@ -18,7 +18,7 @@ module.exports = function(Recipient) {
     next(null, true);
   });
 
-  Recipient.afterRemote('create', function (context, recipient, next) {
+  Recipient.afterRemote('create', function (context, recipient, cb) {
     var params = {
       EmailAddress: recipient.address /* required */
     };
