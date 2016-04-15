@@ -12,7 +12,6 @@ angular.module('newsletterFrontendApp')
       $scope.backendURL = 'http://localhost:3000/api/Recipients/';
 
       $scope.registerUser = function () {
-          console.log("Entrando");
           $http({
               method: 'POST',
               url: $scope.backendURL,
