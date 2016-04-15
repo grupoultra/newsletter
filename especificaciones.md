@@ -18,3 +18,6 @@
 - Como va a crear el cliente cada correo?
 - Que correo vamos a utilizar para enviar 
 - Queremos que se pueda recibir respuesta?
+
+# Pendientes
+- Debemos manejar quejas y rebotes
