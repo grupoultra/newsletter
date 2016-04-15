@@ -12,7 +12,7 @@ angular.module('newsletterFrontendApp')
       $scope.backendURL = 'http://localhost:3000/api/Recipients/';
 
       $scope.registerUser = function () {
-          console.log($scope.backendURL);
+          console.log("Entrando");
           $http({
               method: 'POST',
               url: $scope.backendURL,
@@ -29,7 +29,7 @@ angular.module('newsletterFrontendApp')
               });
       };
 
-      $scope.registerUser = function () {
+      $scope.sendEmail = function () {
           $http({
               method: 'POST',
               url: $scope.backendURL + 'send',
