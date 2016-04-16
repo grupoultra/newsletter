@@ -1,17 +1,21 @@
 var app = require('../../server/server');
 var config = require('../../server/config.json');
-var aws = require('aws-sdk');
-// var credentials = new aws.SharedIniFileCredentials({profile: 'default'});
-aws.config.update({
-  region: 'us-west-2',
-  accessKeyId: "AKIAIVYG2UJZJZWOOKLA",
-  secretAccessKey: "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"
-});
-var ses = new aws.SES({apiVersion: '2010-12-01'});
 var _ = require('lodash');
 var Q = require('q');
 
+var aws = require('aws-sdk');
+aws.config.update({
+  region: config.region,
+  accessKeyId: config.accessKeyId,
+  secretAccessKey: config.secretAccessKey
+});
+var ses = new aws.SES({apiVersion: '2010-12-01'});
+
+var from = config.senderAddress;
+
 module.exports = function(Recipient) {
+  Recipient.validatesUniquenessOf('address');
+
   Recipient.beforeRemote('create', function (context, recipient, next) {
     // TODO: Validar correo electronico
     context.args.verified = false;
@@ -23,8 +27,6 @@ module.exports = function(Recipient) {
       EmailAddress: recipient.address /* required */
     };
 
-    var from = 'alexis.ibarra@ultra.sur.top';
-
     ses.sendEmail({
       Source: from,
       Destination: { ToAddresses: [ recipient.address ] },
@@ -33,7 +35,7 @@ module.exports = function(Recipient) {
           Data: "Gracias por suscribirse"
         },
         Body: {
-          Text: {
+          Html: {
             // TODO: Mover esto al frontend
             Data: "Hola, debe verificar su correo. Ingrese al siguiente link: <a href=\"http://localhost:3000/verificar?id=" + recipient.id + "\"> Verificar </a> ",
           }
@@ -54,7 +56,6 @@ module.exports = function(Recipient) {
   Recipient.send = function (subject, content, cb) {
     app.models.Recipient.find({'where': {verified: true}})
     .then(function(usersList){
-      var from = 'alexis.ibarra@ultra.sur.top';
 
       return Q.all(
         _.map(usersList, function(user){
@@ -66,7 +67,7 @@ module.exports = function(Recipient) {
                 Data: subject
               },
               Body: {
-                Text: {
+                Html: {
                   Data: content
                 }
               }
