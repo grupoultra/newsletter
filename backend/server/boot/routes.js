@@ -53,7 +53,7 @@ module.exports = function (app) {
   });
 
   app.get('/verificar', function (req, res) {
-      app.models.Recipient.update({ id: req.query.id }, { "verified": true})
+      app.models.Recipient.update({ token: req.query.token }, { "verified": true})
           .then(function (response) {
               console.log(response);
               res.render('verified_es');
