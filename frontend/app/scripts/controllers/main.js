@@ -8,8 +8,8 @@
  * Controller of the newsletterFrontendApp
  */
 angular.module('newsletterFrontendApp')
-  .controller('MainCtrl', function ($scope, $http) {
-      $scope.backendURL = 'http://localhost:3000/api/Recipients/';
+  .controller('MainCtrl', function ($scope, $http, ENV) {
+      $scope.backendURL = ENV.apiEndpoint + "/Recipients/";
 
       $scope.registerUser = function () {
           $http({
