@@ -33,7 +33,7 @@
     "public": false
   },
   "Recipient": {
-    "dataSource": "ultra-newsletter",
+    "dataSource": "dynamodb",
     "public": true
   }
 }
