@@ -3,7 +3,8 @@ var config = require('../../server/config.json');
 var _ = require('lodash');
 var Q = require('q');
 var crypto = require('crypto');
-
+var ejs = require('ejs'),
+    fs = require('fs');
 
 var aws = require('aws-sdk');
 aws.config.update({
@@ -18,6 +19,16 @@ var from = config.senderAddress;
 var randomObject = function() {
   return crypto.createHash('md5').update(Math.random().toString()).digest('hex').substring(0, 24);
 }
+
+var getHTML = function(){
+
+
+var filePath = __dirname + '/partial.ejs';
+var template = fs.readFileSync(filePath, 'utf8');
+var html = ejs.render(template,{});
+
+console.log(html);
+};
 
 module.exports = function(Recipient) {
   // Recipient.validatesUniquenessOf('address');
