@@ -2,6 +2,8 @@ var app = require('../../server/server');
 var config = require('../../server/config.json');
 var _ = require('lodash');
 var Q = require('q');
+var crypto = require('crypto');
+
 
 var aws = require('aws-sdk');
 aws.config.update({
@@ -13,12 +15,17 @@ var ses = new aws.SES({apiVersion: '2010-12-01'});
 
 var from = config.senderAddress;
 
+var randomObject = function() {
+  return crypto.createHash('md5').update(Math.random().toString()).digest('hex').substring(0, 24);
+}
+
 module.exports = function(Recipient) {
-  Recipient.validatesUniquenessOf('address');
+  // Recipient.validatesUniquenessOf('address');
 
   Recipient.beforeRemote('create', function (context, recipient, next) {
     // TODO: Validar correo electronico
-    context.args.verified = false;
+    // console.log(context);
+    context.args.data.token = randomObject();
     next(null, true);
   });
 
@@ -37,13 +44,13 @@ module.exports = function(Recipient) {
         Body: {
           Html: {
             // TODO: Mover esto al frontend
-            Data: "Hola, debe verificar su correo. Ingrese al siguiente link: <a href=\"http://localhost:3000/verificar?id=" + recipient.id + "\"> Verificar </a> ",
+            Data: "Hola, debe verificar su correo. Ingrese al siguiente link: <a href=\"http://localhost:3000/verificar?token=" + recipient.token + "\"> Verificar </a> ",
           }
         }
       }
     }).promise()
         .then(function (res) {
-          cb(null, {"response": "Correo enviado"})
+          cb(null, res)
         })
         .catch(function(err){
           cb(err);
@@ -54,26 +61,25 @@ module.exports = function(Recipient) {
   });
 
   Recipient.send = function (subject, content, cb) {
-    app.models.Recipient.find({'where': {verified: true}})
+    app.models.Recipient.find()
     .then(function(usersList){
-
       return Q.all(
-        _.map(usersList, function(user){
-          return ses.sendEmail({
-            Source: from,
-            Destination: { ToAddresses: [ user.address ] },
-            Message: {
-              Subject: {
-                Data: subject
-              },
-              Body: {
-                Html: {
-                  Data: content
+          _.map(usersList, function(user){
+            return ses.sendEmail({
+              Source: from,
+              Destination: { ToAddresses: [ user.address ] },
+              Message: {
+                Subject: {
+                  Data: subject
+                },
+                Body: {
+                  Html: {
+                    Data: content
+                  }
                 }
               }
-            }
-          }).promise()
-        })
+            }).promise()
+          })
       );
     })
     .then(function(responses){
@@ -82,13 +88,6 @@ module.exports = function(Recipient) {
     .catch(function(error){
       cb(error);
     });
-  };
-
-  Recipient.verify = function (id, cb){
-    app.models.Recipient.update({ id: id }, { "verified": true})
-        .then(function (res) {
-          cb(null, {"Response": "model updated"});
-        })
   };
 
   Recipient.remoteMethod('send', {
@@ -100,11 +99,25 @@ module.exports = function(Recipient) {
     http: {path: '/send', verb: 'post'}
   });
 
-  Recipient.remoteMethod('verify', {
-    accepts: [
-      {arg: 'id', type: 'string' }
-    ],
-    returns: {root: true, type: 'Object'},
-    http: {path: '/verify', verb: 'get'}
-  });
+  // Recipient.disableRemoteMethod("create", true);
+  Recipient.disableRemoteMethod("update", true);
+  Recipient.disableRemoteMethod("upsert", true);
+  Recipient.disableRemoteMethod("updateById", true);
+  Recipient.disableRemoteMethod("updateAll", true);
+
+  Recipient.disableRemoteMethod("find", true);
+  Recipient.disableRemoteMethod("findById", true);
+  Recipient.disableRemoteMethod("findOne", true);
+
+  Recipient.disableRemoteMethod("deleteById", true);
+  Recipient.disableRemoteMethod("destroyById", true);
+  Recipient.disableRemoteMethod("removeById", true);
+
+  Recipient.disableRemoteMethod("confirm", true);
+  Recipient.disableRemoteMethod("count", true);
+  Recipient.disableRemoteMethod("exists", true);
+  Recipient.disableRemoteMethod("createChangeStream", true);
+  Recipient.disableRemoteMethod("createChangeStream_0", true);
+  Recipient.prototype.updateAttributes.shared = true;
+  Recipient.disableRemoteMethod('updateAttributes', false);
 };
