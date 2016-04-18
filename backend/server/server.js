@@ -8,6 +8,8 @@ var app = module.exports = loopback();
 // configure view handler
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+// app.connector('dynamodb', path.join(__dirname, 'connectors/dynamodb'))
+app.connector('dynamodb', require('../connectors/dynamodb-connector'))
 
 app.start = function() {
   // start the web server

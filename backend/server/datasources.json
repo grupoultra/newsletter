@@ -6,5 +6,9 @@
   "ultra-newsletter": {
     "name": "ultra-newsletter",
     "connector": "mongodb"
+  },
+  "dynamodb": {
+    "name": "dynamodb",
+    "connector": "dynamodb"
   }
 }

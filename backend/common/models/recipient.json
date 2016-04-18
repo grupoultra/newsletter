@@ -1,7 +1,6 @@
 {
   "name": "Recipient",
   "base": "PersistedModel",
-  "idInjection": true,
   "strict": true,
   "options": {
     "validateUpsert": true
@@ -10,6 +9,9 @@
     "address": {
       "type": "string",
       "required": true
+    },
+    "token": {
+      "type": "string"
     },
     "fullname": {
       "type": "string"
