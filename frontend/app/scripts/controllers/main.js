@@ -11,6 +11,12 @@ angular.module('newsletterFrontendApp')
   .controller('MainCtrl', function ($scope, $http, ENV) {
       $scope.backendURL = ENV.apiEndpoint + "/Recipients/";
 
+      $scope.news = [{"header": "", "content": "", "type": "news", "link": "" }];
+
+      $scope.addNews = function(){
+          $scope.news.push({"header": "", "content": "", "type": "news", "link": ""});
+      };
+
       $scope.registerUser = function () {
           $http({
               method: 'POST',
@@ -32,9 +38,9 @@ angular.module('newsletterFrontendApp')
           $http({
               method: 'POST',
               url: $scope.backendURL + 'send',
-              data:{
-                  "subject": $scope.subject,
-                  "content": $scope.content
+              data: {
+                  "subject": "Boletin diario",
+                  "content": $scope.news
               }
           })
               .then(function(res){
