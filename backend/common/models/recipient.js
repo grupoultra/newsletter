@@ -3,6 +3,7 @@ var config = require('../../server/config.json');
 var _ = require('lodash');
 var Q = require('q');
 var crypto = require('crypto');
+var path = require('path');
 var ejs = require('ejs'),
     fs = require('fs');
 
@@ -20,14 +21,11 @@ var randomObject = function() {
   return crypto.createHash('md5').update(Math.random().toString()).digest('hex').substring(0, 24);
 }
 
-var getHTML = function(){
-
-
-var filePath = __dirname + '/partial.ejs';
-var template = fs.readFileSync(filePath, 'utf8');
-var html = ejs.render(template,{});
-
-console.log(html);
+var getHTML = function(messages){
+  // var filePath = __dirname + './../../utils/emailTemplates/template.ejs';
+  var filePath = path.join(__dirname, './../../utils/emailTemplates/template.ejs')
+  var template = fs.readFileSync(filePath, 'utf8');
+  return ejs.render(template,{ messages: messages});
 };
 
 module.exports = function(Recipient) {
@@ -45,6 +43,11 @@ module.exports = function(Recipient) {
       EmailAddress: recipient.address /* required */
     };
 
+    var messages = [{
+      header: "Gracias por suscribirse",
+      content: "Debe verificar su correo. Ingrese al siguiente link: <a href=\"http://localhost:3000/verificar?token=" + recipient.token + "\"> Verificar </a> "
+    }];
+
     ses.sendEmail({
       Source: from,
       Destination: { ToAddresses: [ recipient.address ] },
@@ -55,7 +58,7 @@ module.exports = function(Recipient) {
         Body: {
           Html: {
             // TODO: Mover esto al frontend
-            Data: "Hola, debe verificar su correo. Ingrese al siguiente link: <a href=\"http://localhost:3000/verificar?token=" + recipient.token + "\"> Verificar </a> ",
+            Data: getHTML(messages)
           }
         }
       }
