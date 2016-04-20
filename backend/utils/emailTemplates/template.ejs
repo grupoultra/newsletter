@@ -142,6 +142,13 @@
                                 <multiline label="Description">
                                   <p>
                                     <%- message.content %>
+                                    <a href="<%- message.link %>">
+                                      <% if (message.type === "news"){%>
+                                        Ver mas
+                                      <% } else { %>
+                                        Verificar
+                                      <% }%>
+                                    </a>
                                   </p>
                                 </multiline>
                               </td>
