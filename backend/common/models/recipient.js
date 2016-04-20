@@ -45,7 +45,8 @@ module.exports = function(Recipient) {
 
     var messages = [{
       header: "Gracias por suscribirse",
-      content: "Debe verificar su correo. Ingrese al siguiente link: <a href=\"http://localhost:3000/verificar?token=" + recipient.token + "\"> Verificar </a> "
+      content: "Debe verificar su correo. Ingrese al siguiente link:",
+      link: "http://localhost:3000/verificar?token=" + recipient.token
     }];
 
     ses.sendEmail({
@@ -88,7 +89,7 @@ module.exports = function(Recipient) {
                 },
                 Body: {
                   Html: {
-                    Data: content
+                    Data: getHTML(content)
                   }
                 }
               }
@@ -107,7 +108,7 @@ module.exports = function(Recipient) {
   Recipient.remoteMethod('send', {
     accepts: [
       {arg: 'subject', type: 'string' },
-      {arg: 'content', type: 'string' },
+      {arg: 'content', type: '[object]' },
     ],
     returns: {root: true, type: 'Object'},
     http: {path: '/send', verb: 'post'}
