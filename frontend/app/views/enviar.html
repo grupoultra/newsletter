@@ -1,3 +1,10 @@
+<div class="alert alert-success" role="alert" ng-show="success">
+    El registro ha sido realizado con exito
+</div>
+<div class="alert alert-danger" role="alert" ng-show="error">
+    Ha ocurrido un error, intente de nuevo
+</div>
+
 <div id="registration-panel" class="panel panel-info">
     <div class="panel-heading">Enviar correo a la lista de distribucion</div>
     <div class="panel-body">
@@ -7,21 +14,21 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="content">Titulo:</label>
-                            <textarea class="form-control" id="content" ng-model="element.header" ng-required></textarea>
+                            <textarea class="form-control" id="content" ng-model="element.header" ng-required="true"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="content">Contenido:</label>
-                            <textarea class="form-control" id="content" ng-model="element.content" ng-required></textarea>
+                            <textarea class="form-control" id="content" ng-model="element.content" ng-required="true"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="content">Link:</label>
-                            <textarea class="form-control" id="link" ng-model="element.link" ng-required></textarea>
+                            <textarea class="form-control" id="link" ng-model="element.link" ng-required="true"></textarea>
                         </div>
                     </div>
 
                 </div>
             </div>
-            <button type="submit" class="btn btn-success">Enviar</button>
+            <button type="submit" class="btn btn-success" ng-disabled="sendingDisabled">Enviar</button>
             <button type="button" class="btn btn-success" ng-click="addNews()">Anadir noticia</button>
         </form>
     </div>
