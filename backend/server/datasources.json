@@ -6,5 +6,13 @@
   "dynamodb": {
     "name": "dynamodb",
     "connector": "dynamodb"
+  },
+  "mongodb": {
+    "name": "mongodb",
+    "connector": "mongodb",
+    "url": "mongodb://newsletter-client:newsletter-client@ds013941.mlab.com:13941/newsletter-clients",
+    "database": "newsletter-client",
+    "user":     "newsletter-client",
+    "password": "newsletter-client"
   }
 }
