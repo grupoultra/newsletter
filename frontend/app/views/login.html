@@ -1,0 +1,16 @@
+<div id="registration-panel" class="panel panel-info">
+    <div class="panel-heading">Inicie sesion</div>
+    <div class="panel-body">
+        <form role="form" ng-submit="login(email, password)">
+            <div class="form-group">
+                <label for="username">Email:</label>
+                <input type="text" class="form-control" id="username" ng-model="username" ng-required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" ng-model="password" ng-required>
+            </div>
+            <button type="submit" class="btn btn-success" >Iniciar Sesion</button>
+        </form>
+    </div>
+</div>
