@@ -8,16 +8,21 @@
  * Controller of the newsletterFrontendApp
  */
 angular.module('newsletterFrontendApp')
-  .controller('MainCtrl', function ($scope, $http, ENV) {
+  .controller('MainCtrl', function ($scope, $http, ENV, store) {
       $scope.backendURL = ENV.apiEndpoint + "/Recipients/";
 
-      $scope.news = [{"header": "", "content": "", "type": "news", "link": "" }];
+      setEmptyNews();
 
       $scope.addNews = function(){
           $scope.news.push({"header": "", "content": "", "type": "news", "link": ""});
       };
 
+      function setEmptyNews () {
+          $scope.news = [{"header": "", "content": "", "type": "news", "link": "" }];
+      };
+
       $scope.registerUser = function () {
+          $scope.registrationDisabled = true;
           $http({
               method: 'POST',
               url: $scope.backendURL,
@@ -26,29 +31,60 @@ angular.module('newsletterFrontendApp')
                   "fullname": $scope.fullname
               }
           })
-              .then(function(res){
-                  console.log(res);
-              })
-              .catch(function(err){
-                  console.log(err);
-              });
+          .then(function(res){
+              $scope.clicked = true;
+
+              console.log("estoy aqui");
+
+              if( res.status === 200 ){
+                  $scope.success = true;
+                  $scope.fullname = '';
+                  $scope.email = '';
+                  $scope.success = true;
+              } else{
+                  $scope.error = true;
+              }
+              $scope.registrationDisabled = false;
+
+              console.log(res);
+          })
+          .catch(function(err){
+              $scope.error = true;
+
+              console.log("Error: ", err);
+          });
       };
 
       $scope.sendEmail = function () {
+          $scope.sendingDisabled = true;
           $http({
               method: 'POST',
               url: $scope.backendURL + 'send',
+              headers:{
+                  "Authorization": store.get("authentication_token")
+              },
               data: {
                   "subject": "Boletin diario",
                   "content": $scope.news
               }
           })
-              .then(function(res){
+          .then(function(res){
+              if( res.status === 200 ) {
+                  setEmptyNews();
+                  $scope.success = true;
+              } else {
+                $scope.error = true;
+              }
                   console.log(res);
-              })
-              .catch(function(err){
-                  console.log(err);
-              });
+              $scope.sendingDisabled = false;
+
+          })
+          .catch(function(err){
+              $scope.error = true;
+
+              $scope.sendingDisabled = false;
+              console.log(err);
+          });
       }
       
   });
