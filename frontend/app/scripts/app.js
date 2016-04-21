@@ -16,6 +16,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+      'angular-storage',
     'config'
   ])
   .config(function ($routeProvider) {
@@ -23,6 +24,13 @@ angular
       .when('/', {
         templateUrl: 'views/crear.html',
         controller: 'MainCtrl'
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      })
+      .when('/logout', {
+        controller: 'LoginCtrl'
       })
       .when('/enviar', {
         templateUrl: 'views/enviar.html',
