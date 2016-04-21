@@ -83,7 +83,7 @@ module.exports = function(Recipient) {
           _.map(usersList, function(user){
             return ses.sendEmail({
               Source: from,
-              Destination: { ToAddresses: [ user.address ] },
+              Destination: { ToAddresses: [ config.senderAddress ] },
               Message: {
                 Subject: {
                   Data: subject
