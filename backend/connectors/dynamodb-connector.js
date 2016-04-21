@@ -41,16 +41,14 @@ function DynamoDB(settings, dataSource) {
 }
 
 DynamoDB.prototype.update = function updateAll(model, where, data, options, cb){
-    var params = {
-        TableName: "ultra-newsletter",
-        Key:{
-            "token": where.token
-        },
-        UpdateExpression: "set verified = :T",
-        ExpressionAttributeValues: {
-            ":T": true
-        }
-    };
+
+    var params = { TableName: "newsletter-" + model.toLowerCase()};
+
+    if(model === "Recipient") {
+        params.Key = { "token": where.token};
+        params.UpdateExpression = "set verified = :T";
+        params.ExpressionAttributeValues = { ":T": true};
+    }
 
     docClient.update(params, function(err, data) {
         if (err) {
@@ -67,23 +65,31 @@ DynamoDB.prototype.update = function updateAll(model, where, data, options, cb){
  * Create a new model instance
  */
 DynamoDB.prototype.create = function (model, data, cb) {
-    var params = {
-        TableName: "ultra-newsletter",
-        Item: {
+    var params = { TableName: "newsletter-" + model.toLowerCase()};
+
+    if(model === "Recipient") {
+        params.Item = {
             "token": data.token,
-            "address":  data.address,
+            "email": data.address,
             "campaign": "new-prueba",
             "verified": false,
             "fullname": data.fullname
             // TODO cambiar la campana
-        }
-    };
+        };
+    } else {
+        params.Item = {
+            "username": data.username,
+            "email": data.email,
+            "password": data.password
+            // TODO cambiar la campana
+        };
+    }
 
-    docClient.put(params, function(err, datae) {
+    docClient.put(params, function(err, data) {
         if (err) {
             cb(err);
         } else {
-            cb(null, datae);
+            cb(null, data);
         }
     });
 };
@@ -93,17 +99,17 @@ DynamoDB.prototype.create = function (model, data, cb) {
  * Find all model instances
  */
 DynamoDB.prototype.all = function (model, filter, options, cb) {
-    var params = {
-        TableName: "ultra-newsletter",
-        ProjectionExpression: "address, fullname",
-        FilterExpression: "verified = :verified",
-        ExpressionAttributeValues: {
-            ":verified": true
-        }
-    };
+    var params = { TableName: "newsletter-" + model.toLowerCase()};
 
-    if(filter.verified){
-        params["ExpressionAttributeValues"][":verified"] = filter.verified;
+    if(model === "Recipient") {
+
+        params.ProjectionExpression = "address, fullname";
+        params.FilterExpression = "verified = :verified";
+        params.ExpressionAttributeValues = {":verified": true};
+
+        if (filter.verified) {
+            params["ExpressionAttributeValues"][":verified"] = filter.verified;
+        }
     }
 
     docClient.scan(params, function(err, data) {
@@ -115,12 +121,12 @@ DynamoDB.prototype.all = function (model, filter, options, cb) {
         }
     });
 };
-
-/**
- * Save a model instance
- */
-DynamoDB.prototype.save = function (model, data, cb) {
-
-    console.log(model, data);
-    // callback(err, err ? null);
-};
+//
+// /**
+//  * Save a model instance
+//  */
+// DynamoDB.prototype.save = function (model, data, cb) {
+//
+//     console.log(model, data);
+//     // callback(err, err ? null);
+// };

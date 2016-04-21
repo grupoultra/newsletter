@@ -23,7 +23,7 @@ angular.module('newsletterFrontendApp')
               url: $scope.backendURL,
               data:{
                   "address": $scope.email,
-                  "name": $scope.name
+                  "fullname": $scope.fullname
               }
           })
               .then(function(res){
