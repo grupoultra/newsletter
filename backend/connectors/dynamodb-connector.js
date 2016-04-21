@@ -70,9 +70,9 @@ DynamoDB.prototype.create = function (model, data, cb) {
     if(model === "Recipient") {
         params.Item = {
             "token": data.token,
-            "email": data.address,
+            "address": data.address,
             "campaign": "new-prueba",
-            "verified": false,
+            "verified": data.verified,
             "fullname": data.fullname
             // TODO cambiar la campana
         };
@@ -103,11 +103,11 @@ DynamoDB.prototype.all = function (model, filter, options, cb) {
 
     if(model === "Recipient") {
 
-        params.ProjectionExpression = "address, fullname";
-        params.FilterExpression = "verified = :verified";
-        params.ExpressionAttributeValues = {":verified": true};
+        params.ProjectionExpression = "address, fullname, #token, verified, campaign, email";
+        params.ExpressionAttributeNames = {"#token": "token"};
 
         if (filter.verified) {
+            params["FilterExpression"] = "verified = :verified";
             params["ExpressionAttributeValues"][":verified"] = filter.verified;
         }
     }
@@ -117,6 +117,7 @@ DynamoDB.prototype.all = function (model, filter, options, cb) {
             console.error("Error JSON:", JSON.stringify(err, null, 2));
             cb(err);
         } else {
+            // console.log("USers en el conector: ", data.Items);
             cb(null, data.Items);
         }
     });
