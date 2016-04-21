@@ -21,12 +21,13 @@ angular
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'views/crear.html',
         controller: 'MainCtrl'
       })
       .when('/enviar', {
         templateUrl: 'views/enviar.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+          authenticated: true
       })
       .otherwise({
         redirectTo: '/'
