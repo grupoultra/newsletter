@@ -6,14 +6,16 @@
     "validateUpsert": true
   },
   "properties": {
-    "address": {
-      "type": "string",
-      "required": true
-    },
     "token": {
       "type": "string"
     },
     "fullname": {
+      "type": "string"
+    },
+    "campaign": {
+      "type": "string"
+    },
+    "address": {
       "type": "string"
     },
     "verified": {
