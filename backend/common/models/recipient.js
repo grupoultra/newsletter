@@ -33,6 +33,7 @@ module.exports = function(Recipient) {
 
   Recipient.beforeRemote('create', function (context, recipient, next) {
     // TODO: Validar correo electronico
+    // TODO: validar que no se esten creando tokens extra
     // console.log(context);
     context.args.data.token = randomObject();
     next(null, true);
