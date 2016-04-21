@@ -34,12 +34,34 @@ module.exports = function(Recipient) {
   Recipient.beforeRemote('create', function (context, recipient, next) {
     // TODO: Validar correo electronico
     // TODO: validar que no se esten creando tokens extra
-    // console.log(context);
-    context.args.data.token = randomObject();
-    next(null, true);
+
+    console.log("context", context.args.data.address);
+    app.models.Recipient.find()
+        .then(function(users){
+          // { 'address': context.args.data.address }
+            var usersFiltered = _.filter(users, function (user) {
+              return user.address === context.args.data.address;
+            });
+
+            return usersFiltered;
+          }).then(function(users){
+
+            if(users.length > 0) {
+
+              console.log("Ya existia");
+              context.args.data.token = users[0].token;
+              context.args.data.verified = users[0].verified;
+            } else{
+              console.log("NO existia");
+              context.args.data.token = randomObject();
+              context.args.data.verified = false;
+            }
+            next(null, true);
+        });
   });
 
   Recipient.afterRemote('create', function (context, recipient, cb) {
+    
     var params = {
       EmailAddress: recipient.address /* required */
     };
@@ -78,12 +100,18 @@ module.exports = function(Recipient) {
 
   Recipient.send = function (subject, content, cb) {
     app.models.Recipient.find()
+    .then(function(usersList) {
+      return _.filter(usersList, function (user) {
+        return user.verified === true;
+      });
+    })
     .then(function(usersList){
+      console.log("usersList", usersList);
       return Q.all(
           _.map(usersList, function(user){
             return ses.sendEmail({
               Source: from,
-              Destination: { ToAddresses: [ config.senderAddress ] },
+              Destination: { ToAddresses: [ user.address ] },
               Message: {
                 Subject: {
                   Data: subject
