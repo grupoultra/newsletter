@@ -436,7 +436,7 @@ module.exports = function (grunt) {
         constants: {
           ENV: {
             name: 'development',
-            apiEndpoint: 'http://localhost:3000/api'
+            apiEndpoint: 'https://9zrt55mz44.execute-api.us-east-1.amazonaws.com/beta'
           }
         }
       },
