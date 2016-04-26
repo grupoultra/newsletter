@@ -38,8 +38,6 @@ angular.module('newsletterFrontendApp')
           .then(function(res){
               $scope.clicked = true;
 
-              console.log("estoy aqui");
-
               if( res.status === 200 ){
                   $scope.success = true;
                   $scope.fullname = '';
