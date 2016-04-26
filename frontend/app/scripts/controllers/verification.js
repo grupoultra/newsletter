@@ -3,6 +3,7 @@
 angular.module('newsletterFrontendApp')
   .controller('VerificationCtrl', function ($scope, $routeParams, $http) {
     var token = $routeParams.token;
+    $scope.backendURL = ENV.apiEndpoint + "/recipients/";
 
     $scope.verify = function(){
       $http({
