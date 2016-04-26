@@ -9,7 +9,7 @@
  */
 angular.module('newsletterFrontendApp')
   .controller('MainCtrl', function ($scope, $http, ENV, store) {
-      $scope.backendURL = ENV.apiEndpoint + "/Recipients/";
+      $scope.backendURL = ENV.apiEndpoint + "/recipients/";
 
       setEmptyNews();
 
@@ -28,7 +28,8 @@ angular.module('newsletterFrontendApp')
               url: $scope.backendURL,
               data:{
                   "address": $scope.email,
-                  "fullname": $scope.fullname
+                  "fullname": $scope.fullname,
+                  "operation": "create"
               }
           })
           .then(function(res){
@@ -86,5 +87,5 @@ angular.module('newsletterFrontendApp')
               console.log(err);
           });
       }
-      
+
   });
