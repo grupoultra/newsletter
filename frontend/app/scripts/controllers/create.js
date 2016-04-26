@@ -30,6 +30,9 @@ angular.module('newsletterFrontendApp')
                   "address": $scope.email,
                   "fullname": $scope.fullname,
                   "operation": "create"
+              },
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8'
               }
           })
           .then(function(res){
