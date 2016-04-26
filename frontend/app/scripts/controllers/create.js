@@ -63,11 +63,12 @@ angular.module('newsletterFrontendApp')
           $scope.sendingDisabled = true;
           $http({
               method: 'POST',
-              url: $scope.backendURL + 'send',
+              url: $scope.backendURL,
               headers:{
                   "Authorization": store.get("authentication_token")
               },
               data: {
+                  "operation": "send",
                   "subject": "Boletin diario",
                   "content": $scope.news
               }
