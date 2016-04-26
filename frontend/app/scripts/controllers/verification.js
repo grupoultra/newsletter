@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('newsletterFrontendApp')
-  .controller('VerificationCtrl', function ($scope, $routeParams, $http) {
+  .controller('VerificationCtrl', function ($scope, $routeParams, ENV,  $http) {
     var token = $routeParams.token;
     $scope.backendURL = ENV.apiEndpoint + "/recipients/";
 
