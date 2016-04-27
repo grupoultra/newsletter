@@ -28,8 +28,10 @@
 
                 </div>
             </div>
-            <button type="submit" class="btn btn-success" ng-disabled="sendingDisabled">Enviar</button>
-            <button type="button" class="btn btn-success" ng-click="addNews()">Anadir noticia</button>
+            <button type="submit" class="btn btn-success" ng-class="sendingDisabled ? 'disabled' : ''">Enviar</button>
+            <button type="button" class="btn btn-success" ng-class="sendingDisabled ? 'disabled' : ''" ng-click="addNews()">Anadir noticia</button>
         </form>
     </div>
 </div>
+
+<span us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-send"></span>
