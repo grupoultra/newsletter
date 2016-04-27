@@ -17,7 +17,9 @@
         <label for="email">Email:</label>
         <input type="email" class="form-control" id="email" ng-model="email" ng-required="required">
       </div>
-      <button type="submit" class="btn btn-success" ng-disable="!registrationDisabled">Registrarme</button>
+      <button type="submit" class="btn btn-success" ng-class="registrationDisabled ? 'disabled' : ''">Registrarme</button>
     </form>
   </div>
 </div>
+
+<span us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-register"></span>
