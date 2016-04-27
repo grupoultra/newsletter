@@ -32,6 +32,10 @@ angular
       .when('/logout', {
         controller: 'LoginCtrl'
       })
+      .when('/verificar/:token', {
+        controller: 'VerificationCtrl',
+        templateUrl: 'views/verify.html'
+      })
       .when('/enviar', {
         templateUrl: 'views/enviar.html',
         controller: 'MainCtrl',

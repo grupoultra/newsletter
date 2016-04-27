@@ -9,7 +9,7 @@
  */
 angular.module('newsletterFrontendApp')
   .controller('MainCtrl', function ($scope, $http, ENV, store) {
-      $scope.backendURL = ENV.apiEndpoint + "/Recipients/";
+      $scope.backendURL = ENV.apiEndpoint + "/recipients/";
 
       setEmptyNews();
 
@@ -28,13 +28,15 @@ angular.module('newsletterFrontendApp')
               url: $scope.backendURL,
               data:{
                   "address": $scope.email,
-                  "fullname": $scope.fullname
+                  "fullname": $scope.fullname,
+                  "operation": "create"
+              },
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8'
               }
           })
           .then(function(res){
               $scope.clicked = true;
-
-              console.log("estoy aqui");
 
               if( res.status === 200 ){
                   $scope.success = true;
@@ -59,11 +61,12 @@ angular.module('newsletterFrontendApp')
           $scope.sendingDisabled = true;
           $http({
               method: 'POST',
-              url: $scope.backendURL + 'send',
+              url: $scope.backendURL,
               headers:{
                   "Authorization": store.get("authentication_token")
               },
               data: {
+                  "operation": "send",
                   "subject": "Boletin diario",
                   "content": $scope.news
               }
@@ -86,5 +89,5 @@ angular.module('newsletterFrontendApp')
               console.log(err);
           });
       }
-      
+
   });
