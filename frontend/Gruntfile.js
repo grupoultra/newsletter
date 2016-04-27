@@ -21,6 +21,7 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -61,6 +62,15 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
+    },
+
+    aws_s3:{
+      options: {
+        bucket: "ultra-newsletter",
+        awsProfile: "default",
+        region: "us-east-1"
+      },
+      files: {expand: true, cwd: 'dist/', src: ['**'], dest: '/'}
     },
 
     // The actual grunt server settings
@@ -483,6 +493,11 @@ module.exports = function (grunt) {
     'autoprefixer',
     'connect:test',
     'karma'
+  ]);
+
+  grunt.registerTask('deploy', [
+    'build',
+    'aws_s3'
   ]);
 
   grunt.registerTask('build', [
