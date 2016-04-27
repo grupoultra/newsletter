@@ -48,16 +48,17 @@ angular.module('newsletterFrontendApp')
           } else{
             $scope.error = true;
           }
-
-          $scope.registrationDisabled = false;
-          usSpinnerService.stop('spinner-register');
-
           console.log(res);
         })
         .catch(function(err){
           $scope.error = true;
 
           console.log("Error: ", err);
+        })
+        .finally(function(){
+
+          $scope.registrationDisabled = false;
+          usSpinnerService.stop('spinner-register');
         });
       };
 
@@ -78,8 +79,6 @@ angular.module('newsletterFrontendApp')
           }
         })
         .then(function(res){
-          $scope.sendingDisabled = false;
-          usSpinnerService.stop('spinner-send');
 
           if( res.status === 200 ) {
             setEmptyNews();
@@ -93,8 +92,11 @@ angular.module('newsletterFrontendApp')
         .catch(function(err){
           $scope.error = true;
 
-          $scope.sendingDisabled = false;
           console.log(err);
+        })
+        .finally(function(){
+          $scope.sendingDisabled = false;
+          usSpinnerService.stop('spinner-send');
         });
       }
 
