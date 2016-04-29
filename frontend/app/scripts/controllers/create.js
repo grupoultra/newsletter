@@ -8,8 +8,11 @@
  * Controller of the newsletterFrontendApp
  */
 angular.module('newsletterFrontendApp')
-  .controller('MainCtrl', function ($scope, $http, ENV, store, usSpinnerService) {
+  .controller('MainCtrl', function ($scope, $http, ENV, store, $location, usSpinnerService) {
       $scope.backendURL = ENV.apiEndpoint + "/recipients/";
+      $scope.error = false;
+      $scope.success = false;
+
 
       setEmptyNews();
 
@@ -34,6 +37,7 @@ angular.module('newsletterFrontendApp')
             "operation": "create"
           },
           headers: {
+            'Authorization': store.get('Authorization'),
             'Content-Type': 'application/json; charset=utf-8'
           }
         })
@@ -70,7 +74,8 @@ angular.module('newsletterFrontendApp')
           method: 'POST',
           url: $scope.backendURL,
           headers:{
-            "Authorization": store.get("authentication_token")
+            'Authorization': store.get('Authorization'),
+            'Content-Type': 'application/json; charset=utf-8'
           },
           data: {
             "operation": "send",
