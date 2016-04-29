@@ -5,7 +5,7 @@
   Ha ocurrido un error, intente de nuevo
 </div>
 
-<div id="registration-panel" class="panel panel-info">
+<div id="registration-panel" class="panel panel-info" ng-show="isLoggedIn()">
   <div class="panel-heading">Ingrese sus datos para subscribirse a nuestra lista de distribucion</div>
   <div class="panel-body">
     <form role="form" ng-submit="registerUser()">
@@ -20,6 +20,10 @@
       <button type="submit" class="btn btn-success" ng-class="registrationDisabled ? 'disabled' : ''">Registrarme</button>
     </form>
   </div>
+</div>
+
+<div class="alert alert-warning" ng-show="!isLoggedIn()">
+  <p>No puede realizar esta accion si no ha iniciado sesion</p>
 </div>
 
 <span us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-register"></span>
