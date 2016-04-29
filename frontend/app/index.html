@@ -40,18 +40,17 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-              <li>
+              <li ng-show="isLoggedIn()">
                 <a ng-href="/#/">Registrar</a>
               </li>
-              <!--<li>-->
-                <!--<a ng-href="/#/login">Login</a>-->
-              <!--</li>-->
-              <!--<li ng-show="isLoggedIn()">-->
-                <!--<a ng-click="logout()">Logout</a>-->
-              <!--</li>-->
-              <!--<li ng-show="isLoggedIn()">-->
-              <li>
+              <li ng-hide="isLoggedIn()">
+                <a ng-href="/#/login">Login</a>
+              </li>
+              <li ng-show="isLoggedIn()">
                 <a ng-href="/#/enviar">Enviar</a>
+              </li>
+              <li ng-show="isLoggedIn()">
+                <a ng-click="logout()">Logout</a>
               </li>
             </ul>
           </div><!-- /.navbar-collapse -->
