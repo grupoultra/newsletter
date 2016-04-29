@@ -1,9 +1,16 @@
-<div id="registration-panel" class="panel panel-info">
+<div class="alert alert-success" role="alert" ng-show="success">
+  Inicio de sesion exitoso
+</div>
+<div class="alert alert-danger" role="alert" ng-show="error">
+  {{ errorMessage }}
+</div>
+
+<div id="registration-panel" class="panel panel-info" ng-hide="isLoggedIn()">
     <div class="panel-heading">Inicie sesion</div>
     <div class="panel-body">
         <form role="form" ng-submit="login(email, password)">
             <div class="form-group">
-                <label for="username">Email:</label>
+                <label for="username">Nombre de usuario:</label>
                 <input type="text" class="form-control" id="username" ng-model="username" ng-required>
             </div>
             <div class="form-group">
