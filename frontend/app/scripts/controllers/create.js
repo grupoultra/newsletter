@@ -30,7 +30,7 @@ angular.module('newsletterFrontendApp')
 
         $http({
           method: 'POST',
-          url: $scope.backendURL,
+          url: $scope.backendURL + 'send',
           data:{
             "address": $scope.email,
             "fullname": $scope.fullname,
