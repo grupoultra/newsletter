@@ -18,7 +18,8 @@ angular
     'ngTouch',
     'angular-storage',
     'config',
-    'angularSpinner'
+    'angularSpinner',
+    'vcRecaptcha'
   ])
   .config(function ($routeProvider) {
     $routeProvider

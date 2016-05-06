@@ -8,11 +8,13 @@
  * Controller of the newsletterFrontendApp
  */
 angular.module('newsletterFrontendApp')
-  .controller('MainCtrl', function ($scope, $http, ENV, store, $location, usSpinnerService) {
+  .controller('MainCtrl', function ($scope, $http, ENV, store, $location, usSpinnerService, vcRecaptchaService) {
       $scope.backendURL = ENV.apiEndpoint + "/recipients/";
       $scope.error = false;
       $scope.success = false;
+      var vm = this;
 
+      vm.publickKey = '6LdrPx8TAAAAAIn_9E3paV13kJdmesIm9AvGzzEb';
 
       setEmptyNews();
 
@@ -25,6 +27,20 @@ angular.module('newsletterFrontendApp')
       };
 
       $scope.registerUser = function () {
+        if($scope.email.trim() === "" || $scope.fullname.trim() === ""){
+          $scope.errorMessage = "Todos los campos son requeridos";
+          $scope.error = true;
+
+          throw $scope.errorMessage;
+        }
+
+        if (vcRecaptchaService.getResponse() === ""){
+          $scope.errorMessage = "Debe resolver el captcha para subscribirse";
+          $scope.error = true;
+
+          throw $scope.errorMessage;
+        }
+
         $scope.registrationDisabled = true;
         usSpinnerService.spin('spinner-register');
 
@@ -50,13 +66,13 @@ angular.module('newsletterFrontendApp')
             $scope.email = '';
             $scope.success = true;
           } else{
-            $scope.error = true;
+            throw "Ha ocurrido un error, intente de nuevo";
           }
           console.log(res);
         })
         .catch(function(err){
           $scope.error = true;
-
+          $scope.errorMessage = err;
           console.log("Error: ", err);
         })
         .finally(function(){
@@ -67,6 +83,17 @@ angular.module('newsletterFrontendApp')
       };
 
       $scope.sendEmail = function () {
+        $scope.errorMessage = "Ha ocurrido un error, intente de nuevo";
+        var news;
+        for(news in $scope.news){
+          if(!news.header || news.header.trim() === "" || !news.content  || news.content || !news.link || news.link.trim() === ""){
+            $scope.errorMessage = "Todos los campos son requeridos";
+            $scope.error = true;
+
+            throw $scope.errorMessage;
+          }
+        }
+
         $scope.sendingDisabled = true;
         usSpinnerService.spin('spinner-send');
 

@@ -13,6 +13,8 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
   </head>
   <body ng-app="newsletterFrontendApp">
     <!--[if lt IE 7]>
@@ -34,7 +36,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Ultra Newsletter</a>
+            <a class="navbar-brand" href="#/">Ultra Newsletter</a>
           </div>
 
           <!-- Collect the nav links, forms, and other content for toggling -->
@@ -86,6 +88,7 @@
     <script src="bower_components/a0-angular-storage/dist/angular-storage.js"></script>
     <script src="bower_components/spin.js/spin.js"></script>
     <script src="bower_components/angular-spinner/angular-spinner.js"></script>
+    <script src="bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <script src="/scripts/config.js"></script>
@@ -100,5 +103,9 @@
 
         <!-- endbuild -->
 
+    <!--<script-->
+      <!--src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit"-->
+      <!--async defer-->
+    <!--&gt;</script>-->
   </body>
 </html>

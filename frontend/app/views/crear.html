@@ -1,22 +1,27 @@
 <div class="alert alert-success" role="alert" ng-show="success">
-  El registro ha sido realizado con exito
+  El registro ha sido realizado con éxito
 </div>
 <div class="alert alert-danger" role="alert" ng-show="error">
-  Ha ocurrido un error, intente de nuevo
+  {{ errorMessage }}
 </div>
 
 <div id="registration-panel" class="panel panel-info">
-  <div class="panel-heading">Ingrese sus datos para subscribirse a nuestra lista de distribucion</div>
+  <div class="panel-heading">Ingrese sus datos para subscribirse a nuestra lista de distribución</div>
   <div class="panel-body">
-    <form role="form" ng-submit="registerUser()">
+    <form role="form" ng-submit="registerUser()" name="registrationForm">
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" ng-model="email" ng-required="required">
+        <input type="email" class="form-control" id="email" ng-model="email" ng-required="true" ng-maxlength="320">
       </div>
       <div class="form-group">
         <label for="name">Nombre:</label>
         <input type="text" class="form-control" id="name" ng-model="fullname" ng-required="true">
       </div>
+
+      <!--<div class="form-group">-->
+        <div class="g-recaptcha" data-sitekey="6LdrPx8TAAAAAIn_9E3paV13kJdmesIm9AvGzzEb"></div>
+      <!--</div>-->
+
       <button type="submit" class="btn btn-success" ng-class="registrationDisabled ? 'disabled' : ''">Registrarme</button>
     </form>
   </div>
