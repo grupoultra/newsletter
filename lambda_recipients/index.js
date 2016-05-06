@@ -63,7 +63,7 @@ exports.handler = function( event, context ) {
             Item: {
               "token": token,
               "address": address,
-              "campaign": "new-prueba",
+              "campaign": "la-iguana",
               "verified": verified,
               "fullname": fullname
               // TODO: cambiar la campana
