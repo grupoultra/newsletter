@@ -33,6 +33,7 @@ module.exports = function(config) {
       'bower_components/spin.js/spin.js',
       'bower_components/angular-spinner/angular-spinner.js',
       'bower_components/angular-recaptcha/release/angular-recaptcha.js',
+      'bower_components/ng-lodash/build/ng-lodash.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

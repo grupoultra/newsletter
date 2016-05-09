@@ -5,7 +5,7 @@ angular.module('newsletterFrontendApp')
     var token = $routeParams.token;
     usSpinnerService.spin('spinner-verify');
 
-    $scope.backendURL = ENV.apiEndpoint + "/recipients/";
+    $scope.backendURL = ENV.apiEndpoint + "/recipients/verify/";
 
     $scope.status = 'info';
     $scope.message = "Estamos verificando su correo electronico";

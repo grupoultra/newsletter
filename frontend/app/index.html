@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 
-    <script src='https://www.google.com/recaptcha/api.js'></script>
   </head>
   <body ng-app="newsletterFrontendApp">
     <!--[if lt IE 7]>
@@ -72,6 +71,8 @@
        ga('create', 'UA-XXXXX-X');
        ga('send', 'pageview');
     </script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
+
 
 
     <!-- build:js(.) scripts/vendor.js -->
@@ -89,8 +90,11 @@
     <script src="bower_components/spin.js/spin.js"></script>
     <script src="bower_components/angular-spinner/angular-spinner.js"></script>
     <script src="bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
+    <script src="bower_components/ng-lodash/build/ng-lodash.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+
+
     <script src="/scripts/config.js"></script>
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -103,9 +107,6 @@
 
         <!-- endbuild -->
 
-    <!--<script-->
-      <!--src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit"-->
-      <!--async defer-->
-    <!--&gt;</script>-->
+    <!--<script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit"></script>-->
   </body>
 </html>

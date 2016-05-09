@@ -19,7 +19,8 @@ angular
     'angular-storage',
     'config',
     'angularSpinner',
-    'vcRecaptcha'
+    'vcRecaptcha',
+    'ngLodash'
   ])
   .config(function ($routeProvider) {
     $routeProvider

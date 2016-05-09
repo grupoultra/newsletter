@@ -18,11 +18,14 @@
         <input type="text" class="form-control" id="name" ng-model="fullname" ng-required="true">
       </div>
 
-      <!--<div class="form-group">-->
-        <div class="g-recaptcha" data-sitekey="6LdrPx8TAAAAAIn_9E3paV13kJdmesIm9AvGzzEb"></div>
-      <!--</div>-->
+      <div class="form-group">
+        <div vc-recaptcha key="'6LdrPx8TAAAAAIn_9E3paV13kJdmesIm9AvGzzEb'"></div>
+      </div>
 
       <button type="submit" class="btn btn-success" ng-class="registrationDisabled ? 'disabled' : ''">Registrarme</button>
+
+
+
     </form>
   </div>
 </div>

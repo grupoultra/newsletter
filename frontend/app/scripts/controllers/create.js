@@ -8,22 +8,24 @@
  * Controller of the newsletterFrontendApp
  */
 angular.module('newsletterFrontendApp')
-  .controller('MainCtrl', function ($scope, $http, ENV, store, $location, usSpinnerService, vcRecaptchaService) {
+  .controller('MainCtrl', function ($scope, $http, ENV, store, $location, usSpinnerService, lodash, vcRecaptchaService) {
+      var _ = lodash;
       $scope.backendURL = ENV.apiEndpoint + "/recipients/";
       $scope.error = false;
       $scope.success = false;
       var vm = this;
 
-      vm.publickKey = '6LdrPx8TAAAAAIn_9E3paV13kJdmesIm9AvGzzEb';
+      $scope.publickKey = '6LdrPx8TAAAAAIn_9E3paV13kJdmesIm9AvGzzEb';
 
       setEmptyNews();
 
       $scope.addNews = function(){
-        $scope.news.push({"header": "", "content": "", "type": "news", "link": ""});
+        $scope.news.push({header: "", content: "", type: "news", link: ""});
       };
 
       function setEmptyNews () {
-        $scope.news = [{"header": "", "content": "", "type": "news", "link": "" }];
+        $scope.news = [];
+        $scope.news.push({header: "", content: "", type: "news", link: ""});
       };
 
       $scope.registerUser = function () {
@@ -76,7 +78,6 @@ angular.module('newsletterFrontendApp')
           console.log("Error: ", err);
         })
         .finally(function(){
-
           $scope.registrationDisabled = false;
           usSpinnerService.stop('spinner-register');
         });
@@ -84,15 +85,17 @@ angular.module('newsletterFrontendApp')
 
       $scope.sendEmail = function () {
         $scope.errorMessage = "Ha ocurrido un error, intente de nuevo";
-        var news;
-        for(news in $scope.news){
-          if(!news.header || news.header.trim() === "" || !news.content  || news.content || !news.link || news.link.trim() === ""){
+
+        _.forEach($scope.news, function(news){
+          if(!news.header || news.header.trim() === "" ||
+            !news.content  || news.content.trim() === "" ||
+            !news.link || news.link.trim() === ""){
             $scope.errorMessage = "Todos los campos son requeridos";
             $scope.error = true;
 
             throw $scope.errorMessage;
           }
-        }
+        });
 
         $scope.sendingDisabled = true;
         usSpinnerService.spin('spinner-send');
