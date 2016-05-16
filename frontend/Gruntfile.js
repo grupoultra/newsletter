@@ -68,9 +68,16 @@ module.exports = function (grunt) {
       options: {
         bucket: "ultra-newsletter",
         awsProfile: "default",
-        region: "us-east-1"
+        region: "us-east-1",
+        cwd: 'dist/'
       },
-      files: {expand: true, cwd: 'dist/', src: ['**'], dest: '/'}
+      files: {
+        expand: true,
+        cwd: 'dist/',
+        src: ['**'],
+        dest: '/',
+        differential: true
+      }
     },
 
     // The actual grunt server settings
