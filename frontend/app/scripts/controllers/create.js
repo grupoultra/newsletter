@@ -28,6 +28,10 @@ angular.module('newsletterFrontendApp')
         $scope.news.push({header: "", content: "", type: "news", link: ""});
       };
 
+      $scope.removeNews = function(index){
+        $scope.news.splice(index, 1);
+      };
+
       $scope.registerUser = function () {
         if($scope.email.trim() === "" || $scope.fullname.trim() === ""){
           $scope.errorMessage = "Todos los campos son requeridos";
@@ -102,7 +106,7 @@ angular.module('newsletterFrontendApp')
 
         $http({
           method: 'POST',
-          url: $scope.backendURL,
+          url: $scope.backendURL + 'send',
           headers:{
             'Authorization': store.get('Authorization'),
             'Content-Type': 'application/json; charset=utf-8'
@@ -114,7 +118,6 @@ angular.module('newsletterFrontendApp')
           }
         })
         .then(function(res){
-
           if( res.status === 200 ) {
             setEmptyNews();
             $scope.success = true;
