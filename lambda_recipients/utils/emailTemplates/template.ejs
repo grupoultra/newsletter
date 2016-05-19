@@ -597,7 +597,24 @@
   <tbody><tr style="vertical-align: top">
     <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top;padding-top: 0px;padding-right: 20px;padding-bottom: 10px;padding-left: 20px">
         <div style="color:#B8B8C0;line-height:150%;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;">
-        	<div style="font-size:12px;line-height:18px;color:#B8B8C0;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;text-align:left;"><p style="margin: 0;font-size: 12px;line-height: 18px">Usted est&#225; recibiendo este mensaje porque solicit&#243; suscribirse a&nbsp;nuestro Bolet&#237;n&nbsp;en <a style="color:#BBBBBB;text-decoration: underline;" href="http://laiguana.tv" target="_blank">nuestro sitio web</a></p><p style="margin: 0;font-size: 12px;line-height: 18px"><br data-mce-bogus="1"></p><p style="margin: 0;font-size: 12px;line-height: 18px">Si lo desea, puede <a style="color:#BBBBBB;text-decoration: underline;" href="http://laiguana.tv/unsuscribe" target="_blank">eliminar su Suscripci&#243;n</a>.</p><div class="txtTinyMce-wrapper" style="font-size: 12px; line-height: 18px;">&nbsp;<br></div></div>
+        	<div style="font-size:12px;line-height:18px;color:#B8B8C0;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;text-align:left;">
+                <p style="margin: 0;font-size: 12px;line-height: 18px">
+                    Usted est&#225; recibiendo este mensaje porque solicit&#243; suscribirse a&nbsp;nuestro
+                    Bolet&#237;n&nbsp;en
+                    <a style="color:#BBBBBB;text-decoration: underline;" href="http://laiguana.tv" target="_blank">nuestro sitio web</a>
+                </p>
+
+                <% if (unsuscriptionLink){%>
+                    <p style="margin: 0;font-size: 12px;line-height: 18px">
+                        <br data-mce-bogus="1">
+                    </p>
+                    <p style="margin: 0;font-size: 12px;line-height: 18px">
+                        Si lo desea, puede
+                        <a style="color:#BBBBBB;text-decoration: underline;" href="<%- unsuscriptionLink %>" target="_blank">eliminar su Suscripci&#243;n</a>.
+                    </p>
+                <% }%>
+
+                <div class="txtTinyMce-wrapper" style="font-size: 12px; line-height: 18px;">&nbsp;<br></div></div>
         </div>
     </td>
   </tr>
