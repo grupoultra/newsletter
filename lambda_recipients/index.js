@@ -82,7 +82,7 @@ exports.handler = function( event, context ) {
             link: config.frontendURL + "#/verificar/" + token
           }];
 
-          return SESsendEmail(address, "Gracias por suscribirse", messages);
+          return SESsendEmail(address, null, "Gracias por suscribirse", messages);
         })
         .then(function (res) {
           console.log("res: ", res);
@@ -108,7 +108,7 @@ exports.handler = function( event, context ) {
             console.log(usersList);
           return Q.all(
             _.map(usersList.Items, function(user){
-              return SESsendEmail(user.address, "Boletin Diario", event.content);
+              return SESsendEmail(user.address, user.token, "Boletin Diario", event.content);
             })
           );
         })
@@ -122,24 +122,41 @@ exports.handler = function( event, context ) {
           context.done(err);
         });
       break;
-      case 'verify':
-        // TODO: Chequear que no tenga ya estatus true para evitar la carga
+
+    case 'verify':
+          // TODO: Chequear que no tenga ya estatus true para evitar la carga
+        params = {
+          TableName : "newsletter-recipient",
+          Key : { "token": event.token },
+          UpdateExpression : "set verified = :T",
+          ExpressionAttributeValues : { ":T": "true"}
+        };
+
+        dynamoUPDATE(params)
+          .then(function(response){
+            console.log("UpdateItem succeeded:", response);
+            context.done(response);
+          })
+          .catch(function(err){
+            console.error("Unable to update item. Error JSON:", err);
+            context.done(null, err);
+          });
+        break;
+    case 'unsuscribe':
       params = {
         TableName : "newsletter-recipient",
-        Key : { "token": event.token },
-        UpdateExpression : "set verified = :T",
-        ExpressionAttributeValues : { ":T": "true"}
+        Key : { "token": event.token }
       };
 
-      dynamoUPDATE(params)
-        .then(function(response){
-          console.log("UpdateItem succeeded:", response);
-          context.done(response);
-        })
-        .catch(function(err){
-          console.error("Unable to update item. Error JSON:", err);
-          context.done(null, err);
-        });
+      dynamoDELETE(params)
+          .then(function(response){
+            console.log("DeleteItem succeeded:", response);
+            context.done(response);
+          })
+          .catch(function(err){
+            console.error("Unable to delete item. Error JSON:", err);
+            context.done(null, err);
+          });
       break;
     default:
       context.done(new Error('Unrecognized operation ' + operation));
@@ -149,7 +166,7 @@ exports.handler = function( event, context ) {
 //TODO: abstraer logica de ses en un modulo aparte
 //TODO: abstraer logica de dynamo en un modulo aparte
 
-var SESsendEmail = function(address, subject, messages){
+var SESsendEmail = function(address, token, subject, messages){
     console.log(address, subject, messages);
   return ses.sendEmail({
     Source: config.senderAddress,
@@ -161,7 +178,7 @@ var SESsendEmail = function(address, subject, messages){
       Body: {
         Html: {
           // TODO: Mover esto al frontend
-          Data: getHTML(messages)
+          Data: getHTML(messages, token)
         }
       }
     }
@@ -180,10 +197,16 @@ var dynamoUPDATE = function(params){
   return docClient.update(params).promise();
 };
 
-var getHTML = function(messages){
+var dynamoDELETE = function(params){
+  return docClient.delete(params).promise();
+};
+
+var getHTML = function(messages, token){
   var filePath = path.join(__dirname, './utils/emailTemplates/template.ejs');
   var template = fs.readFileSync(filePath, 'utf8');
-  return ejs.render(template,{ messages: messages});
+  var unsuscriptionLink = token ? config.frontendURL + "#/unsuscribe/" + token : null;
+
+  return ejs.render(template,{ messages: messages, unsuscriptionLink: unsuscriptionLink});
 };
 
 var randomObject = function() {
