@@ -39,6 +39,10 @@ angular
         controller: 'VerificationCtrl',
         templateUrl: 'views/verify.html'
       })
+      .when('/unsuscribe/:token', {
+        controller: 'UnsuscriptionCtrl',
+        templateUrl: 'views/unsuscribe.html'
+      })
       .when('/enviar', {
         templateUrl: 'views/enviar.html',
         controller: 'MainCtrl',
